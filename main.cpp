@@ -1,5 +1,10 @@
 #include <stdio>
 #include <stdlib>
+#include <stdfx>
+#include <iostram>
+
+using namespace std;
+
 
 
 int main(int argc, char* argv[]){
@@ -9,5 +14,8 @@ int main(int argc, char* argv[]){
 
 	int mode = atoi(argv[1]);
 
+	if (mode == 0){
+
+	}
 
 }
