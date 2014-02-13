@@ -19,12 +19,9 @@ float hidden_unit1::net(float[] weights){
 	//TODO
 }
 
-void hidden_unit1::backPropogation(float output, float expected){
-	//TODO
-}
-
 void hidden_unit1::update(float value);{
 	//TODO
+
 }
 
 void hidden_unit1::save(){
