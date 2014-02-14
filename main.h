@@ -1,4 +1,6 @@
-#include <stdio>
-#include <stdlib>
+#include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
+#include <iostream>
 
-void readWAV(char*);
+void readWAV(char*, BYTE*);
