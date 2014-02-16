@@ -3,4 +3,6 @@
 #include <windows.h>
 #include <iostream>
 
-void readWAV(char*, BYTE*);
+DWORD readWAV(char*, BYTE*);
+
+void fourierTransform(char*, BYTE*);

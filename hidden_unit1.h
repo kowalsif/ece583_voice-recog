@@ -1,6 +1,7 @@
 #include <stdio>
 #include <stdlib>
 #include <iostream>
+#include <math.h>
 
 class hidden_unit1{
 	private:
