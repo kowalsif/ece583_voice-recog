@@ -1,4 +1,11 @@
 #include "main.h"
+
+#define SAMPLING_RATE 44100
+#define BIT_RATE  721920 //705
+//#define path "c:\\Users\\dohertjp\\Documents\\Courses\\ECE583\\Voice Database\\sounds\\1name1.wav"
+#define path "C:\\Users\\kowalsif\\Desktop\\pattern recognition\\voice\\1a1.wav"
+
+
 using namespace std;
 
 int main(int argc, char* argv[]){
@@ -9,7 +16,7 @@ int main(int argc, char* argv[]){
 
 	int mode = atoi(argv[1]);
 	
-	sprintf(filename,"c:\\Users\\dohertjp\\Documents\\Courses\\ECE583\\Voice Database\\sounds\\1name1.wav");
+	sprintf(filename, path);
 	
 	//C:\Users\dohertjp\Documents\Courses\ECE583\Voice Database\sounds
 	
@@ -32,7 +39,7 @@ DWORD readWAV(char* filename, BYTE *sound_buffer){
 		id[4] = '\0'; //add string termination
 		
 		fread(id,sizeof(BYTE),4,fp); //read in first four bytes
-		cout << id;
+		cout << id << endl;
 		if(!strcmp(id,"RIFF")){
 			fread(&size,sizeof(DWORD),1,fp); //read in 32bit size value
 			fread(id,sizeof(BYTE),4,fp); //read in 4 byte string
@@ -48,6 +55,7 @@ DWORD readWAV(char* filename, BYTE *sound_buffer){
 				fread(&data_size,sizeof(DWORD),1,fp);//how many bytes of sound data we have
 				sound_buffer = (BYTE *) malloc(sizeof(BYTE) * data_size); //define buffer space
 				fread(sound_buffer,sizeof(BYTE),data_size,fp); //read in data chunk
+				printf("Sampling rate: %d\n", sample_rate);
 				return data_size;
 			} else {
 				printf("Error: RIFF file but not a wave file\n");
@@ -59,5 +67,9 @@ DWORD readWAV(char* filename, BYTE *sound_buffer){
 		printf("Error: could not open file\n");
 		cout << "could not open file\n";
 	}
+	
 	return 0;
 }
+
+
+
