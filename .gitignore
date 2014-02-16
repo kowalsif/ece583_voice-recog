@@ -1,2 +1,7 @@
 *.wav*.mp3
 *.wav
+*.mp3
+*.exe
+*.*~
+/sounds
+/sounds/*
