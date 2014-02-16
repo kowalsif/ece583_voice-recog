@@ -34,13 +34,16 @@ float hidden_unit0::net(float* inputs){
 }
 
 void hidden_unit0::backPropogation(float output, float expected){
+	//TODO
 	for(int i=0; i<units; i++){
 		weight_updates[i] += 1;//DERIVATIVES;
+	}
 }
 
 void hidden_unit0::update(){
 	for(int i=0; i<units; i++){
-		weight[i] = weights[i] + Eta * weight_updates[i];
+		weights[i] = weights[i] + Eta * weight_updates[i];
+	}
 }
 
 void hidden_unit0::save(){
