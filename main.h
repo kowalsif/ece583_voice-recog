@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <windows.h>
-#include <iostream>
+#include "common.h"
 
 void readWAV(char*, BYTE*);
