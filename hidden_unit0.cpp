@@ -21,6 +21,18 @@ hidden_unit0::hidden_unit0(float* weights, int numUnits){
 	weight_updates = (float*)malloc(sizeof(float)*units);
 }
 
+hidden_unit0::~hidden_unit0(){
+	cout << "hidden_unit0 deleted\n";
+	if(weights){
+		free(weights);
+		weights = NULL;
+	}
+	if(weight_updates){
+		free(weight_updates);
+		weight_updates = NULL;
+	}
+}
+
 float hidden_unit0::f(float net){
 	return (float) 1/(1+exp(-1*(Beta*net)));
 }

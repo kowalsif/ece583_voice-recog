@@ -6,8 +6,11 @@ void hidden_unit0_input_test(void);
 void hidden_unit1_input_test(void);
 
 int main(int argc, char* argv[]){
+	cout << "Test begin\n";
 	hidden_unit0_input_test();
 	hidden_unit1_input_test();
+	cout << "Test end\n";
+	return 0;
 }
 
 void hidden_unit0_input_test(){

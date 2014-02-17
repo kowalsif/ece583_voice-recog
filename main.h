@@ -5,3 +5,5 @@
 DWORD readWAV(char*, BYTE*);
 
 void fourierTransform(char*, BYTE*);
+
+void readDatabase(BYTE**, DWORD**);
