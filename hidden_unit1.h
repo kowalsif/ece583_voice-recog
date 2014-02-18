@@ -10,6 +10,7 @@ class hidden_unit1{
 		
 		hidden_unit1(int); //for training
 		hidden_unit1(float*, int); //done traing, demonstrations
+		~hidden_unit1();
 		
 		float net(float*); //evaluate
 		void backPropogation(float,float); //send output and expected result back to hidden unit

@@ -2,8 +2,8 @@
 
 #define SAMPLING_RATE 44100
 #define BIT_RATE  721920 //705
-//#define path "c:\\Users\\dohertjp\\Documents\\Courses\\ECE583\\Voice Database\\sounds\\1name1.wav"
-#define path "C:\\Users\\kowalsif\\Desktop\\pattern recognition\\voice\\1a1.wav"
+#define path "c:\\Users\\dohertjp\\Documents\\Courses\\ECE583\\Voice Database\\sounds\\1name1.wav"
+//#define path "C:\\Users\\kowalsif\\Desktop\\pattern recognition\\voice\\1a1.wav"
 
 
 using namespace std;
@@ -69,6 +69,13 @@ DWORD readWAV(char* filename, BYTE *sound_buffer){
 	}
 	
 	return 0;
+}
+
+//read in multiple wave files and put them in a database
+//wav array of wave vectors
+//lens array of lengths
+void readDatabase(BYTE** wav, DWORD* lens){
+	//TODO
 }
 
 
