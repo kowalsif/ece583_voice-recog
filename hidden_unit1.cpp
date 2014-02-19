@@ -11,6 +11,7 @@ hidden_unit1::hidden_unit1(int numUnits){
 	weight_updates = (float*)malloc(sizeof(float)*units);
 	for(int i=0; i<numUnits; i++){
 		weights[i] = 1;
+		weight_updates[i] = 0;
 	}
 }
 
@@ -32,28 +33,39 @@ hidden_unit1::~hidden_unit1(){
 	}
 }
 
-float hidden_unit1::f(float net){
-	return (float) 1/(1+exp(-1*(Beta*net)));
+float hidden_unit1::f(){
+	return (float) 1/(1+exp(-1*(Beta*sum)));
 }
 float hidden_unit1::net(float* inputs){
 	//sum inputs * weights
-	float sum = 0;
+	sum = 0;
 	for(int i=0; i<UNITS; i++){
 		sum += inputs[i] * weights[i];
 	}
-	return f(sum);
+	return f();
 }
 
-void hidden_unit1::backPropogation(float output, float expected){
+void hidden_unit1::backPropogation(float y, float d, float w2[], int sizeW2, float z1[], int sizeZ1){
 	//TODO
+	float a, b, c, e, f;
 	for(int i=0; i<units; i++){
-		weight_updates[i] += 1;//DERIVATIVES;
+		for(int j=0; j<sizeW2; j++){
+			for(int k=0; k<sizeZ1; k++){
+				a = exp(-1*Beta*sum);
+				b = (1+a)*(1+a)*(1+a);
+				c = d*a + d-w2[j];
+				e = w2[j]*Beta*z1[k]*a;
+				f = c*e;
+				weight_updates += f/b;
+			}
+		}
 	}
 }
 
 void hidden_unit1::update(){
 	for(int i=0; i<units; i++){
 		weights[i] = weights[i] + Eta * weight_updates[i];
+		weight_updates[i] = 0;
 	}
 }
 
