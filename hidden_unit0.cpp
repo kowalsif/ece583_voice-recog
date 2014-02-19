@@ -45,16 +45,24 @@ float hidden_unit0::net(float* inputs){
 	return f(sum);
 }
 
-void hidden_unit0::backPropogation(float output, float expected){
-	//TODO
-	for(int i=0; i<units; i++){
-		weight_updates[i] += 1;//DERIVATIVES;
-	}
+void hidden_unit0::backPropogation(float d, float y, float w2, float w1, float net2, float x, int weightIndex){
+	float a,b,c,d,e,f,g,h,i,j;
+	a = exp(-Beta*net2);
+	b = exp(-Beta*sum);
+	c = -1*(d-y)*w2*w1*x;
+	e = (1+a)*(1+a)
+	f = Beta * a;
+	g = f / e;
+	h = Beta * b;
+	i = (1+b)*(1+b);
+	j = h/i;
+	weight_updates[weightIndex] += c*g*j;
 }
 
 void hidden_unit0::update(){
 	for(int i=0; i<units; i++){
 		weights[i] = weights[i] + Eta * weight_updates[i];
+		weight_updates[i] = 0;
 	}
 }
 

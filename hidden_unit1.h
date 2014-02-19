@@ -14,7 +14,7 @@ class hidden_unit1{
 		~hidden_unit1();
 		
 		float net(float*); //evaluate
-		void backPropogation(float, float, float*, int, float*); //send output and expected result back to hidden unit
+		void backPropogation(float, float, float, float, int); //send output and expected result back to hidden unit
 		void update(); //perform batch update
 		void save();
 		void load();

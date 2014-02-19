@@ -13,7 +13,7 @@ class hidden_unit0{
 		~hidden_unit0();
 		
 		float net(float*); //evaluate
-		void backPropogation(float,float); //send output and expected result back to hidden unit
+		void backPropogation(float, float, float, float, float, float, int); //send output and expected result back to hidden unit
 		void update(); //perform batch update
 		void save();
 		void load();

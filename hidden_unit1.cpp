@@ -45,19 +45,14 @@ float hidden_unit1::net(float* inputs){
 	return f();
 }
 
-void hidden_unit1::backPropogation(float y, float d, float *w2, int sizeW2, float *z1){
-	//TODO
+void hidden_unit1::backPropogation(float d, float y, float w2, float z1, int weightIndex){
 	float a, b, c, e, f;
-	for(int i=0; i<units; i++){
-		for(int j=0; j<sizeW2; j++){
-			a = (-1)*(d-y) * w2[j] * z1[i];
-			b = exp(-1 * Beta * sum);
-			c = Beta * b;
-			e = (1 + b) * (1 + b);
-			f = c/e;
-			weight_updates += a * f;
-		}
-	}
+	a = (-1)*(d-y) * w2 * z1;
+	b = exp(-1 * Beta * sum);
+	c = Beta * b;
+	e = (1 + b) * (1 + b);
+	f = c/e;
+	weight_updates[weightIndex] += a * f;
 }
 
 void hidden_unit1::update(){
