@@ -4,7 +4,8 @@ class hidden_unit1{
 	private:
 		float* weights;
 		float* weight_updates;
-		float f(float);
+		float f();
+		float sum;
 	public:
 		int units;
 		
