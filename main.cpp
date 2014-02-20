@@ -104,6 +104,17 @@ int main(int argc, char* argv[]){
 		}
 	}	
 	//initialize the system
+
+
+
+	//kill the system
+	for (int i = 0; i < 16; i++){
+		delete hidden0;
+		delete hidden1;
+	}
+	for (int i = 0; i < 2; i++){
+		delete output;
+	}
 	
 	
 	//length = readWAV(filename, sound_buffer);
