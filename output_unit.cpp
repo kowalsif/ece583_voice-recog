@@ -3,19 +3,19 @@
 using namespace std;
 
 #define Beta 1.0
-#define Eta 0.001
+#define Eta 0.0001
 
 
 output_unit::output_unit(int numUnits){
 	units = numUnits;
-	weights = (float*)malloc(sizeof(float)*(units+1));
-	weight_updates = (float*)malloc(sizeof(float)*(units+1));
+	weights = (float*)malloc(sizeof(float)*(units));
+	weight_updates = (float*)malloc(sizeof(float)*(units));
 	for(int i=0; i<numUnits; i++){
 		weights[i] = 1;
 		weight_updates[i] = 0;
 	}
-	weights[numUnits] = 1;
-	weight_updates[numUnits] = 0;
+	//weights[numUnits] = 1;
+	//weight_updates[numUnits] = 0;
 }
 
 output_unit::output_unit(float* weights, int numUnits){
@@ -43,7 +43,7 @@ float output_unit::net(float* inputs){
 	for(int i=0; i<units; i++){
 		sum += inputs[i] * weights[i];
 	}
-	sum += weights[units];
+	//sum += weights[units];
 	//y = sum;
 	return sum;
 }
@@ -54,8 +54,8 @@ void output_unit::backPropogation(float y, float d, float z2, int weightIndex){
 }
 
 void output_unit::update(){
-	for(int i=0; i<=units; i++){
-		weights[i] = weights[i] + Eta * weight_updates[i];
+	for(int i=0; i<units; i++){
+		weights[i] = weights[i] - (Eta * weight_updates[i]);
 		weight_updates[i] = 0;
 	}
 }

@@ -5,7 +5,8 @@
 //#define path "c:\\Users\\dohertjp\\Documents\\Courses\\ECE583\\Voice Database\\sounds\\1name1.wav"
 #define path "C:\\Users\\kowalsif\\Desktop\\pattern recognition\\voice\\spectrum.txt"
 
-#define path2 "C:\\Users\\kowalsif\\Desktop\\sounds\\%d%c%d.txt"
+//#define path2 "C:\\Users\\kowalsif\\Desktop\\sounds\\%d%c%d.txt"
+#define path2 "C:\\Users\\dohertjp\\Downloads\\transformDatabase\\fourier\\%d%c%d.txt"
 
 
 using namespace std;
@@ -26,6 +27,7 @@ int main(int argc, char* argv[]){
 	
 	//cout << filename << endl;
 	float buckets[16];
+	//buckets[16] = 1;
 
 	//C:\Users\dohertjp\Documents\Courses\ECE583\Voice Database\sounds
 	//readFourier(filename, buckets);
@@ -122,79 +124,83 @@ int main(int argc, char* argv[]){
 
 	float d[3];
 	d[0] = 1;
-	d[1] = -1;
+	d[1] = 0;
 	d[2] = 1;
+	float J;
+	for(int iterations = 0; iterations < 100; iterations++){
 	for (int np = 0; np < 5; np++){
-	for (int i = 1; i <= 10; i++){ //alternate between intruder and not
-		for (int j = 0; j < 2; j++){
-			for (int k = 1; k <= 5; k++){
-				float net0b, net1b, out;
-				float z1[16];
-				float z2[16];
-				float y[2];
-				sprintf(filename, path2, i, allexp[j], k);
-				readFourier(filename, buckets);
+		for (int i = 1; i <= 10; i++){ //alternate between intruder and not
+			for (int j = 0; j < 2; j++){
+				for (int k = 1; k <= 5; k++){
+					float net0b, net1b, out;
+					float z1[16];
+					float z2[16];
+					float y[3];
+					//z1[16] = 1;
+					//z2[16] = 1;
+					sprintf(filename, path2, i, allexp[j], k);
+					readFourier(filename, buckets);
 
-				//cout << buckets[0] << endl;
-				//send it in for an answer
-				for (int l = 0; l < 16; l++){
+					//cout << buckets[0] << endl;
+					//send it in for an answer
+					for (int l = 0; l < 16; l++){
 					
-					z1[l] =  hidden0[l].net((buckets));
-					//cout << " results: " << z1[l];
-				} 
-				//cout << endl;
-				for (int l = 0; l < 16; l++){
-					z2[l] = hidden1[l].net(z1);
-					//cout << " results: " << z2[l];
-				}
-				for (int l = 0; l < 2; l++){
-					y[l] = output[l].net(z2);
-					printf("the result is: %f\n", y[l]);
-					//output[l].getWeight(1);
-				}
-
-				//propagation to rebalance
-				//h1
-				
-				for (int m = 0; m < 2; m++){
-					for (int n = 0; n < 16; n++){
-						output[m].backPropogation(d[i%2 + m], y[m], z2[n], n);
+						z1[l] =  hidden0[l].net((buckets));
+						//cout << " results: " << z1[l];
+					} 
+					//cout << endl;
+					for (int l = 0; l < 16; l++){
+						z2[l] = hidden1[l].net(z1);
+						//cout << " results: " << z2[l];
 					}
-				}
+					for (int l = 0; l < 2; l++){
+						y[l] = output[l].net(z2);
+						printf("the result is: %f\n", y[l]);
+						//output[l].getWeight(1);
+					}
 
-				//h0
-				for (int m = 0; m < 16; m++){
-					for (int n = 0; n < 16; n++){
-						for (int o = 0; o < 2; o++){
-							float w2 = output[o].getWeight(n);
-							hidden1[m].backPropogation(d[i%2 + o], y[o], w2, z1[n], n);
+					//propagation to rebalance
+					//h1
+				
+					for (int m = 0; m < 2; m++){
+						for (int n = 0; n < 16; n++){
+							output[m].backPropogation(y[m], d[i%2 + m], z2[n], n);
 						}
 					}
-				}
-				//input
-				for (int m = 0; m < 16; m++){
-					for (int n = 0; n < 16; n++){
-						float w1 = hidden1[n].getWeight(m);
-						float net2 = hidden1[n].getNet();
-						for (int o = 0; o < 2; o++){
-							float w2 = output[o].getWeight(n);
-							for (int p = 0; p < 16; p++){
-								hidden0[m].backPropogation(d[i%2 + o], y[o], w2, w1, net2, buckets[p], p);
+
+					//h0
+					for (int m = 0; m < 16; m++){
+						for (int n = 0; n < 16; n++){
+							for (int o = 0; o < 2; o++){
+								float w2 = output[o].getWeight(n);
+								hidden1[m].backPropogation(y[o], d[i%2 + o], w2, z1[n], n);
+							}
+						}
+					}
+					//input
+					for (int m = 0; m < 16; m++){
+						for (int n = 0; n < 16; n++){
+							float w1 = hidden1[n].getWeight(m);
+							float net2 = hidden1[n].getNet();
+							for (int o = 0; o < 2; o++){
+								float w2 = output[o].getWeight(n);
+								for (int p = 0; p < 16; p++){
+									hidden0[m].backPropogation(y[o], d[i%2 + o], w2, w1, net2, buckets[p], p);
+								}
 							}
 						}
 					}
 				}
-
-				for (int m = 0; m < 16; m++){
-					hidden0[m].update();
-					hidden1[m].update();
-				}
-				for (int m = 0; m < 2; m++){
-					output[m].update();
-				}
 			}
+		}	
+	}
+		for (int m = 0; m < 16; m++){
+			hidden0[m].update();
+			hidden1[m].update();
 		}
-	}	
+		for (int m = 0; m < 2; m++){
+			output[m].update();
+		}
 	}
 	//initialize the system
 	float z1[16];

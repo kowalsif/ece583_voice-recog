@@ -3,25 +3,25 @@
 using namespace std;
 
 #define Beta 1.0
-#define Eta 0.001
+#define Eta 0.0001
 
 
 hidden_unit0::hidden_unit0(int numUnits){
 	units = numUnits;
-	weights = (float*)malloc(sizeof(float)*(units+1));
-	weight_updates = (float*)malloc(sizeof(float)*(units+1));
+	weights = (float*)malloc(sizeof(float)*(units));
+	weight_updates = (float*)malloc(sizeof(float)*(units));
 	for(int i=0; i<numUnits; i++){
 		weights[i] = 1;
 		weight_updates[i] = 0;
 	}
-	weights[numUnits] = 1;
-	weight_updates[numUnits] = 0;
+	//weights[numUnits] = 1;
+	//weight_updates[numUnits] = 0;
 }
 
 hidden_unit0::hidden_unit0(float* weights, int numUnits){
 	this->weights = weights;
 	units = numUnits;
-	weight_updates = (float*)malloc(sizeof(float)*(units+1));
+	weight_updates = (float*)malloc(sizeof(float)*(units));
 }
 
 hidden_unit0::~hidden_unit0(){
@@ -46,12 +46,12 @@ float hidden_unit0::net(float* inputs){
 	for(int i=0; i<units; i++){
 		sum += inputs[i] * weights[i];
 	}
-	sum += weights[units];
+	//sum += weights[units];
 	return f(sum);
 }
 
 void hidden_unit0::backPropogation(float d, float y, float w2, float w1, float net2, float x, int weightIndex){
-	cout << d << " " << y << " " << w2 << " " << w1 << " " << net2 << " " << x << "\n";
+	//cout << d << " " << y << " " << w2 << " " << w1 << " " << net2 << " " << x << "\n";
 	float a,b,c,e,f,g,h,i,j;
 	a = exp(-Beta*net2);
 	b = exp(-Beta*sum);
@@ -66,8 +66,8 @@ void hidden_unit0::backPropogation(float d, float y, float w2, float w1, float n
 }
 
 void hidden_unit0::update(){
-	for(int i=0; i<=units; i++){
-		weights[i] = weights[i] + Eta * weight_updates[i];
+	for(int i=0; i<units; i++){
+		weights[i] = weights[i] - (Eta * weight_updates[i]);
 		weight_updates[i] = 0;
 	}
 }
