@@ -25,7 +25,7 @@ output_unit::output_unit(float* weights, int numUnits){
 }
 
 output_unit::~output_unit(){
-	cout << "output_unit deleted\n";
+	//cout << "output_unit deleted\n";
 	if(weights){
 		free(weights);
 		weights = NULL;

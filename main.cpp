@@ -124,9 +124,9 @@ int main(int argc, char* argv[]){
 	d[0] = 1;
 	d[1] = -1;
 	d[2] = 1;
-	for (int i = 1; i <= 10; i++){ //alternate between intruder and not
-		for (int j = 0; j < 3; j++){
-			for (int k = 1; k <= 3; k++){
+	for (int i = 1; i <= 2; i++){ //alternate between intruder and not
+		for (int j = 0; j < 2; j++){
+			for (int k = 1; k <= 2; k++){
 				float net0b, net1b, out;
 				float z1[16];
 				float z2[16];
@@ -151,6 +151,7 @@ int main(int argc, char* argv[]){
 				//h1
 				
 				for (int m = 0; m < 2; m++){
+					cout << "results: " << y[m] << endl;
 					for (int n = 0; n < 16; n++){
 						output[m].backPropogation(d[i%2 + m], y[m], z2[n], n);
 					}
@@ -216,18 +217,18 @@ int main(int argc, char* argv[]){
 
 	cout << "y0: " << y[0] << " y1: " << y[1] << endl;
 	//kill the system
-	for (int i = 0; i < 16; i++){
-		delete &hidden0[i];
-		delete &hidden1[i];
-	}
-	for (int i = 0; i < 2; i++){
-		delete &output[i];
-	}
+	//for (int i = 0; i < 16; i++){
+		//delete &hidden0[i];
+		//delete &hidden1[i];
+	//}
+	//for (int i = 0; i < 2; i++){
+		//delete &output[i];
+	//}
 
 	free(hidden0);
 	free(hidden1);
 	free(output);
-	
+
 	return -1;
 	//length = readWAV(filename, sound_buffer);
 }
