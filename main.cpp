@@ -124,9 +124,10 @@ int main(int argc, char* argv[]){
 	d[0] = 1;
 	d[1] = -1;
 	d[2] = 1;
-	for (int i = 1; i <= 2; i++){ //alternate between intruder and not
+	for (int np = 0; np < 5; np++){
+	for (int i = 1; i <= 10; i++){ //alternate between intruder and not
 		for (int j = 0; j < 2; j++){
-			for (int k = 1; k <= 2; k++){
+			for (int k = 1; k <= 5; k++){
 				float net0b, net1b, out;
 				float z1[16];
 				float z2[16];
@@ -148,6 +149,7 @@ int main(int argc, char* argv[]){
 				}
 				for (int l = 0; l < 2; l++){
 					y[l] = output[l].net(z2);
+					printf("the result is: %f\n", y[l]);
 					//output[l].getWeight(1);
 				}
 
@@ -165,7 +167,7 @@ int main(int argc, char* argv[]){
 					for (int n = 0; n < 16; n++){
 						for (int o = 0; o < 2; o++){
 							float w2 = output[o].getWeight(n);
-							hidden1[m].backPropogation(d[i%2 + m], y[o], w2, z1[n], n);
+							hidden1[m].backPropogation(d[i%2 + o], y[o], w2, z1[n], n);
 						}
 					}
 				}
@@ -177,7 +179,7 @@ int main(int argc, char* argv[]){
 						for (int o = 0; o < 2; o++){
 							float w2 = output[o].getWeight(n);
 							for (int p = 0; p < 16; p++){
-								hidden0[m].backPropogation(d[i%2 + m], y[o], w2, w1, net2, buckets[p], p);
+								hidden0[m].backPropogation(d[i%2 + o], y[o], w2, w1, net2, buckets[p], p);
 							}
 						}
 					}
@@ -193,12 +195,14 @@ int main(int argc, char* argv[]){
 			}
 		}
 	}	
+	}
 	//initialize the system
 	float z1[16];
 	float z2[16];
 	float y[2];
     sprintf(filename, path2, 5, allexp[1], 5);
 	readFourier(filename, buckets);
+	cout << buckets[0] << endl;
 	for (int l = 0; l < 16; l++){
 		z1[l] =  hidden0[l].net(buckets);
 	} 
@@ -207,13 +211,14 @@ int main(int argc, char* argv[]){
 	}
 	for (int l = 0; l < 2; l++){
 		y[l] = output[l].net(z2);
-		//output[l].getWeight(1);
 	}
 
 	cout << "y0: " << y[0] << " y1: " << y[1] << endl;
 
-	sprintf(filename, path2, 6, allexp[2], 6);
+
+	sprintf(filename, path2, 1, allexp[0], 1);
 	readFourier(filename, buckets);
+	cout << buckets[0] << endl;
 	for (int l = 0; l < 16; l++){
 		z1[l] =  hidden0[l].net(buckets);
 	} 
@@ -222,7 +227,6 @@ int main(int argc, char* argv[]){
 	}
 	for (int l = 0; l < 2; l++){
 		y[l] = output[l].net(z2);
-		//output[l].getWeight(1);
 	}
 
 	cout << "y0: " << y[0] << " y1: " << y[1] << endl;
@@ -278,7 +282,7 @@ void readFourier(char* filename, float* buckets){
 		int bucket = 0;
     	for (int i = 0; i < count; i++){
     		if (freq[i] > (bucket + 1)*1375){
-    			buckets[bucket] = buckets[bucket]/bucketstore;
+    			buckets[bucket] = -1*buckets[bucket]/bucketstore;
 				bucket++;
 				bucketstore = 0;
     		}
@@ -286,7 +290,7 @@ void readFourier(char* filename, float* buckets){
     		buckets[bucket] += db[i];
 			//cout << freq[i] << "   " << db[i] << endl;
     	}
-		buckets[bucket] = buckets[bucket]/bucketstore;
+		buckets[bucket] = -1*buckets[bucket]/bucketstore;
 		
     	//return buckets;
 	}

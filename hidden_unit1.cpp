@@ -24,7 +24,7 @@ hidden_unit1::hidden_unit1(float* weights, int numUnits){
 }
 
 hidden_unit1::~hidden_unit1(){
-	cout << "hidden_unit1 deleted\n";
+	//cout << "hidden_unit1 deleted\n";
 	if(weights){
 		free(weights);
 		weights = NULL;
