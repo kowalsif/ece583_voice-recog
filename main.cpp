@@ -120,17 +120,21 @@ int main(int argc, char* argv[]){
 //	hidden_unit1 hidden1(16);
 //	output_unit output(16);
 
-	float d = 1;
-	for (int i = 1; i <= 10; i++){
+	float d[3];
+	d[0] = 1;
+	d[1] = -1;
+	d[2] = 1;
+	for (int i = 1; i <= 10; i++){ //alternate between intruder and not
 		for (int j = 0; j < 3; j++){
 			for (int k = 1; k <= 3; k++){
-				cout << "running" << endl;
 				float net0b, net1b, out;
 				float z1[16];
 				float z2[16];
-				float y[16];
+				float y[2];
 				sprintf(filename, path2, i, allexp[j], k);
 				readFourier(filename, buckets);
+
+				cout << buckets[0] << endl;
 				//send it in for an answer
 				for (int l = 0; l < 16; l++){
 					z1[l] =  hidden0[l].net(buckets);
@@ -145,10 +149,10 @@ int main(int argc, char* argv[]){
 
 				//propagation to rebalance
 				//h1
-
+				
 				for (int m = 0; m < 2; m++){
 					for (int n = 0; n < 16; n++){
-						output[m].backPropogation(d, y[m], z2[n], n);
+						output[m].backPropogation(d[i%2 + m], y[m], z2[n], n);
 					}
 				}
 
@@ -157,7 +161,7 @@ int main(int argc, char* argv[]){
 					for (int n = 0; n < 16; n++){
 						for (int o = 0; o < 2; o++){
 							float w2 = output[o].getWeight(n);
-							hidden1[m].backPropogation(d, y[o], w2, z1[n], n);
+							hidden1[m].backPropogation(d[i%2 + m], y[o], w2, z1[n], n);
 						}
 					}
 				}
@@ -169,7 +173,7 @@ int main(int argc, char* argv[]){
 						for (int o = 0; o < 2; o++){
 							float w2 = output[o].getWeight(n);
 							for (int p = 0; p < 16; p++){
-								hidden0[m].backPropogation(d, y[o], w2, w1, net2, buckets[p], p);
+								hidden0[m].backPropogation(d[i%2 + m], y[o], w2, w1, net2, buckets[p], p);
 							}
 						}
 					}
@@ -179,17 +183,50 @@ int main(int argc, char* argv[]){
 		}
 	}	
 	//initialize the system
+	float z1[16];
+	float z2[16];
+	float y[2];
+    sprintf(filename, path2, 5, allexp[1], 5);
+	readFourier(filename, buckets);
+	for (int l = 0; l < 16; l++){
+		z1[l] =  hidden0[l].net(buckets);
+	} 
+	for (int l = 0; l < 16; l++){
+		z2[l] = hidden1[l].net(z1);
+	}
+	for (int l = 0; l < 2; l++){
+		y[l] = output[l].net(z2);
+		//output[l].getWeight(1);
+	}
 
+	cout << "y0: " << y[0] << " y1: " << y[1] << endl;
 
+	sprintf(filename, path2, 6, allexp[2], 6);
+	readFourier(filename, buckets);
+	for (int l = 0; l < 16; l++){
+		z1[l] =  hidden0[l].net(buckets);
+	} 
+	for (int l = 0; l < 16; l++){
+		z2[l] = hidden1[l].net(z1);
+	}
+	for (int l = 0; l < 2; l++){
+		y[l] = output[l].net(z2);
+		//output[l].getWeight(1);
+	}
 
+	cout << "y0: " << y[0] << " y1: " << y[1] << endl;
 	//kill the system
-	//for (int i = 0; i < 16; i++){
-	delete hidden0;
-	delete hidden1;
-	//}
-	//for (int i = 0; i < 2; i++){
-	delete output;
-	//}
+	for (int i = 0; i < 16; i++){
+		delete &hidden0[i];
+		delete &hidden1[i];
+	}
+	for (int i = 0; i < 2; i++){
+		delete &output[i];
+	}
+
+	free(hidden0);
+	free(hidden1);
+	free(output);
 	
 	return -1;
 	//length = readWAV(filename, sound_buffer);
