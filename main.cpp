@@ -28,26 +28,98 @@ int main(int argc, char* argv[]){
 	float buckets[16];
 
 	//C:\Users\dohertjp\Documents\Courses\ECE583\Voice Database\sounds
-	readFourier(filename, buckets);
+	//readFourier(filename, buckets);
 	hidden_unit0 *hidden0;
 	hidden0 = (hidden_unit0*) malloc(sizeof(hidden_unit0)*16);
+	hidden_unit0 h0(16);
+	hidden0[0] = h0;
+	hidden_unit0 h1(16);
+	hidden0[1] = h1;
+	hidden_unit0 h2(16);
+	hidden0[2] = h2;
+	hidden_unit0 h3(16);
+	hidden0[3] = h3;
+	hidden_unit0 h4(16);
+	hidden0[4] = h4;
+	hidden_unit0 h5(16);
+	hidden0[5] = h5;
+	hidden_unit0 h6(16);
+	hidden0[6] = h6;
+	hidden_unit0 h7(16);
+	hidden0[7] = h7;
+	hidden_unit0 h8(16);
+	hidden0[8] = h8;
+	hidden_unit0 h9(16);
+	hidden0[9] = h9;
+	hidden_unit0 h10(16);
+	hidden0[10] = h10;
+	hidden_unit0 h11(16);
+	hidden0[11] = h11;
+	hidden_unit0 h12(16);
+	hidden0[12] = h12;
+	hidden_unit0 h13(16);
+	hidden0[13] = h13;
+	hidden_unit0 h14(16);
+	hidden0[14] = h14;
+	hidden_unit0 h15(16);
+	hidden0[15] = h15;
+	
+	//hidden0[1] =  hidden_unit0(16);
+	//hidden_unit0 hidden0[16];
 	hidden_unit1 *hidden1;
 	hidden1 = (hidden_unit1*) malloc(sizeof(hidden_unit1)*16);
+	hidden_unit1 c0(16);
+	hidden1[0] = c0;
+	hidden_unit1 c1(16);
+	hidden1[1] = c1;
+	hidden_unit1 c2(16);
+	hidden1[2] = c2;
+	hidden_unit1 c3(16);
+	hidden1[3] = c3;
+	hidden_unit1 c4(16);
+	hidden1[4] = c4;
+	hidden_unit1 c5(16);
+	hidden1[5] = c5;
+	hidden_unit1 c6(16);
+	hidden1[6] = c6;
+	hidden_unit1 c7(16);
+	hidden1[7] = c7;
+	hidden_unit1 c8(16);
+	hidden1[8] = c8;
+	hidden_unit1 c9(16);
+	hidden1[9] = c9;
+	hidden_unit1 c10(16);
+	hidden1[10] = c10;
+	hidden_unit1 c11(16);
+	hidden1[11] = c11;
+	hidden_unit1 c12(16);
+	hidden1[12] = c12;
+	hidden_unit1 c13(16);
+	hidden1[13] = c13;
+	hidden_unit1 c14(16);
+	hidden1[14] = c14;
+	hidden_unit1 c15(16);
+	hidden1[15] = c15;
+
 	output_unit *output;
 	output = (output_unit*) malloc(sizeof(output_unit)*2);
+	output_unit d0(16);
+	output[0] = d0;
+	output_unit d1(16);
+	output[1] = d1;
 	//hidden0(16);
-	for (int i = 0; i < 16; i++){
-		cout << "generate" << endl;
-		hidden0[i] = hidden_unit0(16);
-		hidden1[i] = hidden_unit1(16);
-	}
-	for (int i = 0; i < 2; i++){
-		output[i] = output_unit(16);
-	}
+	//for (int i = 0; i < 16; i++){
+		//cout << "generate" << endl;
+		//hidden0[i] =  hidden_unit0(16);
+		//hidden1[i] = hidden_unit1(16);
+	//}
+	//for (int i = 0; i < 2; i++){
+		//output[i] = output_unit(16);
+	//}
 //	hidden_unit0 hidden0(16);
 //	hidden_unit1 hidden1(16);
 //	output_unit output(16);
-/*
+
 	float d = 1;
 	for (int i = 1; i <= 10; i++){
 		for (int j = 0; j < 3; j++){
@@ -108,18 +180,18 @@ int main(int argc, char* argv[]){
 	}	
 	//initialize the system
 
-*/
+
 
 	//kill the system
-	for (int i = 0; i < 16; i++){
-		delete hidden0;
-		delete hidden1;
-	}
-	for (int i = 0; i < 2; i++){
-		delete output;
-	}
+	//for (int i = 0; i < 16; i++){
+	delete hidden0;
+	delete hidden1;
+	//}
+	//for (int i = 0; i < 2; i++){
+	delete output;
+	//}
 	
-	
+	return -1;
 	//length = readWAV(filename, sound_buffer);
 }
 
