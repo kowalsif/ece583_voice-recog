@@ -31,7 +31,7 @@ int main(int argc, char* argv[]){
 }
 
 int hidden_unit0_input_test(){
-	int ret = 0;
+	/*int ret = 0;
 	float input[1];
 	input[0] = 1.0;
 	hidden_unit0 hidden0(1);
@@ -91,9 +91,11 @@ int output_unit_input_test(){
 		ret = 1;
 	}
 	return ret;
+	*/
 }
 
 void simple_network_test(){
+/*
 	hidden_unit0 layer1(1);
 	hidden_unit1 layer2(1);
 	output_unit layer3(1);
@@ -126,6 +128,7 @@ void simple_network_test(){
 		layer3.update();
 	}
 	cout << "simple test completed in " << count << " iterations.\n";
+*/
 }
 		
 	

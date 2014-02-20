@@ -29,8 +29,52 @@ int main(int argc, char* argv[]){
 
 	//C:\Users\dohertjp\Documents\Courses\ECE583\Voice Database\sounds
 	readFourier(filename, temp0);
+	hidden_unit0 *hidden0;
+	hidden0 = (hidden_unit0*) malloc(sizeof(hidden_unit0)*16);
+	hidden_unit1 *hidden1;
+	hidden1 = (hidden_unit1*) malloc(sizeof(hidden_unit1)*16);
+	output_unit *output;
+	output = (output_unit*) malloc(sizeof(output_unit)*2);
+	//hidden0(16);
+	for (int i = 0; i < 16; i++){
+		hidden0[i] = hidden_unit0(16);
+		hidden1[i] = hidden_unit1(16);
+	}
+	for (int i = 0; i < 2; i++){
+		output[i] = output_unit(16);
+	}
+//	hidden_unit0 hidden0(16);
+//	hidden_unit1 hidden1(16);
+//	output_unit output(16);
+/*
+	for (int i = 0; i < 10; i++){
+		for (int j = 0; j < 3; j++){
+			for (int k = 0; k < 6; k++){
+				float net0b, net1b, out;
+				float z1[16];
+				float z2[16];
+				float y[16];
+				sprintf(filename, path2, i, allexp[j], k);
+				readFourier(filename, temp0);
+				for (int l = 0; l < 16; l++){
+					z1[l] =  hidden0.net(buckets);
+				} 
+				for (int l = 0; l < 16; l++){
+					z2[l] = hidden1.net(z1[l]);
+				}
+				for (int l = 0; l < 16; l++){
+					y[l] = output.net(z1[l]);
+				}
+				//net0 = hidden0.net(buckets);
+				//net1 = hidden1.net(net0);
+				//out = output.net(net1);
 
-	
+				//output.backPropagation(out, 1);
+				//hidden1.backPropagation(1, out, );
+			}
+		}
+	}
+	*/
 
 	for (int i = 0; i < 16; i++){
 		cout << temp0[i] << endl;
