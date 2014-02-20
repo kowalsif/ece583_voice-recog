@@ -49,6 +49,7 @@ float output_unit::net(float* inputs){
 }
 
 void output_unit::backPropogation(float y, float d, float z2, int weightIndex){
+	//cout << y << " " << d << " " << z2 << "\n";
 	weight_updates[weightIndex] += -1 * (d-y)*z2;
 }
 

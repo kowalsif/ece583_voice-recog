@@ -51,6 +51,7 @@ float hidden_unit0::net(float* inputs){
 }
 
 void hidden_unit0::backPropogation(float d, float y, float w2, float w1, float net2, float x, int weightIndex){
+	cout << d << " " << y << " " << w2 << " " << w1 << " " << net2 << " " << x << "\n";
 	float a,b,c,e,f,g,h,i,j;
 	a = exp(-Beta*net2);
 	b = exp(-Beta*sum);
