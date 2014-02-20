@@ -1,12 +1,11 @@
 #include "main.h"
 
-#include <iostream>
-#include <fstream>
-
 #define SAMPLING_RATE 44100
 #define BIT_RATE  721920 //705
 //#define path "c:\\Users\\dohertjp\\Documents\\Courses\\ECE583\\Voice Database\\sounds\\1name1.wav"
 #define path "C:\\Users\\kowalsif\\Desktop\\pattern recognition\\voice\\spectrum.txt"
+
+#define path2 "C:\\Users\\kowalsif\\Desktop\\sounds\\%d%c%d.txt"
 
 
 using namespace std;
@@ -14,23 +13,33 @@ using namespace std;
 int main(int argc, char* argv[]){
 
 	char filename[350];
-	BYTE *sound_buffer;
+	//BYTE *sound_buffer;
 	//BYTE* data_buffer;
-	BYTE* freq_buffer;
-	int data_buffer[61];
-	DWORD length;
+	//BYTE* freq_buffer;
+	//int data_buffer[61];
+	//DWORD length;
 
-	int mode = atoi(argv[1]);
+	//int mode = atoi(argv[1]);
+	char allexp[] = "nap";
 	
-	sprintf(filename, path);
+	//sprintf(filename, path2, 1, allexp[0], 1);
+	
+	//cout << filename << endl;
 	float temp0[16];
 
 	//C:\Users\dohertjp\Documents\Courses\ECE583\Voice Database\sounds
 	readFourier(filename, temp0);
 
+	
+
 	for (int i = 0; i < 16; i++){
 		cout << temp0[i] << endl;
 	}
+	
+	//initialize the system
+
+	
+	
 	//length = readWAV(filename, sound_buffer);
 
 }
@@ -40,7 +49,9 @@ void readFourier(char* filename, float* buckets){
 	FILE *fp;
 
 	fp = fopen(filename, "rb");
-	std::fstream myfile("C:\\Users\\kowalsif\\Desktop\\pattern recognition\\voice\\spectrum.txt", std::ios_base::in);
+	std::fstream myfile(filename, std::ios_base::in);
+
+	cout << filename << endl;
 	
 	if (fp){
 		//float a;
@@ -49,8 +60,8 @@ void readFourier(char* filename, float* buckets){
 			myfile >> b;
 		}
 
-		float freq[256];
-		float db[256];
+		float freq[512];
+		float db[512];
 		int count = 0;
     	
     	while (myfile >> freq[count]) // will be an even number
@@ -58,8 +69,8 @@ void readFourier(char* filename, float* buckets){
         	myfile >> db[count];
         	count++;
     	}
-		//cout << count << endl;
-		//float buckets[16]; //1375 range per bucket
+
+    	myfile.close();
 		int bucketstore = 0;
 		for (int i = 0; i < 16; i++){
 			buckets[i] = 0;
@@ -78,6 +89,9 @@ void readFourier(char* filename, float* buckets){
 		buckets[bucket] = buckets[bucket]/bucketstore;
 		
     	//return buckets;
+	}
+	else {
+		cout << "read failed, try again" << endl;
 	}
 
 }
