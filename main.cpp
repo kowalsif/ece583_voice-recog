@@ -46,7 +46,7 @@ int main(int argc, char* argv[]){
 //	hidden_unit0 hidden0(16);
 //	hidden_unit1 hidden1(16);
 //	output_unit output(16);
-
+	float d = 1;
 	for (int i = 0; i < 10; i++){
 		for (int j = 0; j < 3; j++){
 			for (int k = 0; k < 3; k++){
@@ -65,13 +65,15 @@ int main(int argc, char* argv[]){
 				}
 				for (int l = 0; l < 2; l++){
 					y[l] = output[l].net(z2);
+					//output[l].getWeight(1);
 				}
 
 				//propagation to rebalance
 				//h1
+
 				for (int m = 0; m < 2; m++){
 					for (int n = 0; n < 16; n++){
-						//output[m].back(d[m], y[m], z2[n], n)
+						output[m].backPropogation(d, y[m], z2[n], n);
 					}
 				}
 
@@ -79,41 +81,32 @@ int main(int argc, char* argv[]){
 				for (int m = 0; m < 16; m++){
 					for (int n = 0; n < 16; n++){
 						for (int o = 0; o < 2; o++){
-							//hidden1[m].back(d[0], y[0], w2[0], z1[n], n)
+							float w2 = output[o].getWeight(n);
+							hidden1[m].backPropogation(d, y[o], w2, z1[n], n);
 						}
 					}
 				}
 				//input
 				for (int m = 0; m < 16; m++){
 					for (int n = 0; n < 16; n++){
+						float w1 = hidden1[n].getWeight(m);
+						float net2 = hidden1[n].getNet();
 						for (int o = 0; o < 2; o++){
+							float w2 = output[o].getWeight(n);
 							for (int p = 0; p < 16; p++){
-								//hidden0[m].back(d[o], y[o], w2[o], w1[n], net2[n], x[p], p);
+								hidden0[m].backPropogation(d, y[o], w2, w1, net2, buckets[p], p);
 							}
 						}
 					}
 				}
-				//net0 = hidden0.net(buckets);
-				//net1 = hidden1.net(net0);
-				//out = output.net(net1);
 
-				//output.backPropagation(out, 1);
-				//hidden1.backPropagation(1, out, );
 			}
 		}
-	}
-
-
-	//for (int i = 0; i < 16; i++){
-	//	cout << temp0[i] << endl;
-	//}
-	
+	}	
 	//initialize the system
-
 	
 	
 	//length = readWAV(filename, sound_buffer);
-
 }
 
 
