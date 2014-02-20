@@ -44,7 +44,7 @@ float output_unit::net(float* inputs){
 		sum += inputs[i] * weights[i];
 	}
 	sum += weights[units];
-	y = sum;
+	//y = sum;
 	return sum;
 }
 

@@ -14,7 +14,7 @@ hidden_unit0::hidden_unit0(int numUnits){
 		weights[i] = 1;
 		weight_updates[i] = 0;
 	}
-	weights[numUnits] = 0;
+	weights[numUnits] = 1;
 	weight_updates[numUnits] = 0;
 }
 
