@@ -7,18 +7,20 @@ using namespace std;
 
 hidden_unit1::hidden_unit1(int numUnits){
 	units = numUnits;
-	weights = (float*)malloc(sizeof(float)*units);
-	weight_updates = (float*)malloc(sizeof(float)*units);
+	weights = (float*)malloc(sizeof(float)*(units+1));
+	weight_updates = (float*)malloc(sizeof(float)*(units+1));
 	for(int i=0; i<numUnits; i++){
 		weights[i] = 1;
 		weight_updates[i] = 0;
 	}
+	weights[numUnits] = 1;
+	weight_updates[numUnits] = 1;
 }
 
 hidden_unit1::hidden_unit1(float* weights, int numUnits){
 	this->weights = weights;
 	units = numUnits;
-	weight_updates = (float*)malloc(sizeof(float)*units);
+	weight_updates = (float*)malloc(sizeof(float)*(units+1));
 }
 
 hidden_unit1::~hidden_unit1(){
@@ -34,14 +36,16 @@ hidden_unit1::~hidden_unit1(){
 }
 
 float hidden_unit1::f(){
-	return (float) 1/(1+exp(-1*(Beta*sum)));
+	z = (float) 1/(1+exp(-1*(Beta*sum)));
+	return z;
 }
 float hidden_unit1::net(float* inputs){
 	//sum inputs * weights
 	sum = 0;
-	for(int i=0; i<UNITS; i++){
+	for(int i=0; i<units; i++){
 		sum += inputs[i] * weights[i];
 	}
+	sum += weights[units];
 	return f();
 }
 
@@ -56,7 +60,7 @@ void hidden_unit1::backPropogation(float d, float y, float w2, float z1, int wei
 }
 
 void hidden_unit1::update(){
-	for(int i=0; i<units; i++){
+	for(int i=0; i<=units; i++){
 		weights[i] = weights[i] + Eta * weight_updates[i];
 		weight_updates[i] = 0;
 	}
@@ -70,4 +74,16 @@ void hidden_unit1::save(){
 void hidden_unit1::load(){
 	//TODO
 
+}
+
+float hidden_unit1::getWeight(int index){
+	return weights[index];
+}
+
+float hidden_unit1::getNet(){
+	return sum;
+}
+
+float hidden_unit1::getZ(){
+	return z;
 }

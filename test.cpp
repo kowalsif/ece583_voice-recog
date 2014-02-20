@@ -99,7 +99,7 @@ void simple_network_test(){
 	hidden_unit0 layer1(1);
 	hidden_unit1 layer2(1);
 	output_unit layer3(1);
-	float x[2],z1[2],z2]2],y,d,J=100;
+	float x[2],z1[2],z2[2],y,d,J=100;
 	int count = 0;
 	while(J > 1){
 		x[0] = 1;
@@ -107,25 +107,32 @@ void simple_network_test(){
 		z2[0] = 1;
 		x[1] = 1;
 		d = 0;
-		z1 = layer1.net(x);
-		z2 - layer2.net(z1);
+		z1[1] = layer1.net(x);
+		z2[1] - layer2.net(z1);
 		y = layer3.net(z2);
 		J = 0.5*(d-y)*(d-y);
-		layer3.backPropogation(y,d);
-		layer2.backPropogation(y,d);
-		layer1.backPropogation(y,d);
+		layer3.backPropogation(d,y,z1[0],0);
+		layer3.backPropogation(d,y,z1[1],0);
+		layer2.backPropogation(d,y,layer3.getWeight(0),z2[0], 0);
+		layer2.backPropogation(d,y,layer3.getWeight(0),z2[1], 1);
+		layer1.backPropogation(d,y,layer3.getWeight(0),layer2.getWeight(0),layer2.getNet(),x[0], 0);
+		layer1.backPropogation(d,y,layer3.getWeight(0),layer2.getWeight(0),layer2.getNet(),x[1], 1);
 		x[1] = 0;
 		d = 1;
-		z1 = layer1.net(x);
-		z2 - layer2.net(z1);
+		z1[1] = layer1.net(x);
+		z2[1] - layer2.net(z1);
 		y = layer3.net(z2);
 		J = 0.5*(d-y)*(d-y);
-		layer3.backPropogation(y,d);
-		layer2.backPropogation(y,d);
-		layer1.backPropogation(y,d);
+		layer3.backPropogation(d,y,z1[0],0);
+		layer3.backPropogation(d,y,z1[1],0);
+		layer2.backPropogation(d,y,layer3.getWeight(0),z2[0], 0);
+		layer2.backPropogation(d,y,layer3.getWeight(0),z2[1], 1);
+		layer1.backPropogation(d,y,layer3.getWeight(0),layer2.getWeight(0),layer2.getNet(),x[0], 0);
+		layer1.backPropogation(d,y,layer3.getWeight(0),layer2.getWeight(0),layer2.getNet(),x[1], 1);
 		layer1.update();
 		layer2.update();
 		layer3.update();
+		cout << "J = " << J << "\n";
 	}
 	cout << "simple test completed in " << count << " iterations.\n";
 */

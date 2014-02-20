@@ -6,6 +6,7 @@ class hidden_unit1{
 		float* weight_updates;
 		float f();
 		float sum;
+		float z;
 	public:
 		int units;
 		
@@ -18,6 +19,8 @@ class hidden_unit1{
 		void update(); //perform batch update
 		void save();
 		void load();
-
+		float getWeight(int);
+		float getNet();
+		float getZ();
 };
 	
