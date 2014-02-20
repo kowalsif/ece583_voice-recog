@@ -134,13 +134,17 @@ int main(int argc, char* argv[]){
 				sprintf(filename, path2, i, allexp[j], k);
 				readFourier(filename, buckets);
 
-				cout << buckets[0] << endl;
+				//cout << buckets[0] << endl;
 				//send it in for an answer
 				for (int l = 0; l < 16; l++){
-					z1[l] =  hidden0[l].net(buckets);
+					
+					z1[l] =  hidden0[l].net((buckets));
+					//cout << " results: " << z1[l];
 				} 
+				//cout << endl;
 				for (int l = 0; l < 16; l++){
 					z2[l] = hidden1[l].net(z1);
+					//cout << " results: " << z2[l];
 				}
 				for (int l = 0; l < 2; l++){
 					y[l] = output[l].net(z2);
@@ -151,7 +155,6 @@ int main(int argc, char* argv[]){
 				//h1
 				
 				for (int m = 0; m < 2; m++){
-					cout << "results: " << y[m] << endl;
 					for (int n = 0; n < 16; n++){
 						output[m].backPropogation(d[i%2 + m], y[m], z2[n], n);
 					}
@@ -180,6 +183,13 @@ int main(int argc, char* argv[]){
 					}
 				}
 
+				for (int m = 0; m < 16; m++){
+					hidden0[m].update();
+					hidden1[m].update();
+				}
+				for (int m = 0; m < 2; m++){
+					output[m].update();
+				}
 			}
 		}
 	}	
@@ -243,7 +253,7 @@ void readFourier(char* filename, float* buckets){
 	//cout << filename << endl;
 	
 	if (fp){
-		cout << "file read" << endl;
+		//cout << "file read" << endl;
 		//float a;
 		char b; //22
 		for (int i = 0; i < 22; i++){
