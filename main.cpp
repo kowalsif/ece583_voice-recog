@@ -25,10 +25,10 @@ int main(int argc, char* argv[]){
 	//sprintf(filename, path2, 1, allexp[0], 1);
 	
 	//cout << filename << endl;
-	float temp0[16];
+	float buckets[16];
 
 	//C:\Users\dohertjp\Documents\Courses\ECE583\Voice Database\sounds
-	readFourier(filename, temp0);
+	readFourier(filename, buckets);
 	hidden_unit0 *hidden0;
 	hidden0 = (hidden_unit0*) malloc(sizeof(hidden_unit0)*16);
 	hidden_unit1 *hidden1;
@@ -46,24 +46,52 @@ int main(int argc, char* argv[]){
 //	hidden_unit0 hidden0(16);
 //	hidden_unit1 hidden1(16);
 //	output_unit output(16);
-/*
+
 	for (int i = 0; i < 10; i++){
 		for (int j = 0; j < 3; j++){
-			for (int k = 0; k < 6; k++){
+			for (int k = 0; k < 3; k++){
 				float net0b, net1b, out;
 				float z1[16];
 				float z2[16];
 				float y[16];
 				sprintf(filename, path2, i, allexp[j], k);
-				readFourier(filename, temp0);
+				readFourier(filename, buckets);
+				//send it in for an answer
 				for (int l = 0; l < 16; l++){
-					z1[l] =  hidden0.net(buckets);
+					z1[l] =  hidden0[l].net(buckets);
 				} 
 				for (int l = 0; l < 16; l++){
-					z2[l] = hidden1.net(z1[l]);
+					z2[l] = hidden1[l].net(z1);
 				}
-				for (int l = 0; l < 16; l++){
-					y[l] = output.net(z1[l]);
+				for (int l = 0; l < 2; l++){
+					y[l] = output[l].net(z2);
+				}
+
+				//propagation to rebalance
+				//h1
+				for (int m = 0; m < 2; m++){
+					for (int n = 0; n < 16; n++){
+						//output[m].back(d[m], y[m], z2[n], n)
+					}
+				}
+
+				//h0
+				for (int m = 0; m < 16; m++){
+					for (int n = 0; n < 16; n++){
+						for (int o = 0; o < 2; o++){
+							//hidden1[m].back(d[0], y[0], w2[0], z1[n], n)
+						}
+					}
+				}
+				//input
+				for (int m = 0; m < 16; m++){
+					for (int n = 0; n < 16; n++){
+						for (int o = 0; o < 2; o++){
+							for (int p = 0; p < 16; p++){
+								//hidden0[m].back(d[o], y[o], w2[o], w1[n], net2[n], x[p], p);
+							}
+						}
+					}
 				}
 				//net0 = hidden0.net(buckets);
 				//net1 = hidden1.net(net0);
@@ -74,11 +102,11 @@ int main(int argc, char* argv[]){
 			}
 		}
 	}
-	*/
 
-	for (int i = 0; i < 16; i++){
-		cout << temp0[i] << endl;
-	}
+
+	//for (int i = 0; i < 16; i++){
+	//	cout << temp0[i] << endl;
+	//}
 	
 	//initialize the system
 
