@@ -37,6 +37,7 @@ int main(int argc, char* argv[]){
 	output = (output_unit*) malloc(sizeof(output_unit)*2);
 	//hidden0(16);
 	for (int i = 0; i < 16; i++){
+		cout << "generate" << endl;
 		hidden0[i] = hidden_unit0(16);
 		hidden1[i] = hidden_unit1(16);
 	}
@@ -46,10 +47,12 @@ int main(int argc, char* argv[]){
 //	hidden_unit0 hidden0(16);
 //	hidden_unit1 hidden1(16);
 //	output_unit output(16);
+/*
 	float d = 1;
-	for (int i = 0; i < 10; i++){
+	for (int i = 1; i <= 10; i++){
 		for (int j = 0; j < 3; j++){
-			for (int k = 0; k < 3; k++){
+			for (int k = 1; k <= 3; k++){
+				cout << "running" << endl;
 				float net0b, net1b, out;
 				float z1[16];
 				float z2[16];
@@ -105,7 +108,7 @@ int main(int argc, char* argv[]){
 	}	
 	//initialize the system
 
-
+*/
 
 	//kill the system
 	for (int i = 0; i < 16; i++){
@@ -127,9 +130,10 @@ void readFourier(char* filename, float* buckets){
 	fp = fopen(filename, "rb");
 	std::fstream myfile(filename, std::ios_base::in);
 
-	cout << filename << endl;
+	//cout << filename << endl;
 	
 	if (fp){
+		cout << "file read" << endl;
 		//float a;
 		char b; //22
 		for (int i = 0; i < 22; i++){
@@ -169,6 +173,8 @@ void readFourier(char* filename, float* buckets){
 	else {
 		cout << "read failed, try again" << endl;
 	}
+
+	fclose(fp);
 
 }
 
