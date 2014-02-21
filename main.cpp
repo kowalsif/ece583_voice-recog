@@ -124,10 +124,10 @@ int main(int argc, char* argv[]){
 	d[0] = 1;
 	d[1] = -1;
 	d[2] = 1;
-	for (int np = 0; np < 5; np++){
+	for (int np = 0; np < 11; np++){
 	for (int i = 1; i <= 10; i++){ //alternate between intruder and not
 		for (int j = 0; j < 2; j++){
-			for (int k = 1; k <= 5; k++){
+			for (int k = 1; k <= 6; k++){
 				float net0b, net1b, out;
 				float z1[16];
 				float z2[16];
@@ -282,6 +282,13 @@ void readFourier(char* filename, float* buckets){
 		int bucket = 0;
     	for (int i = 0; i < count; i++){
     		if (freq[i] > (bucket + 1)*1375){
+    			if (bucketstore == 0){
+					cout << "issue found" << endl;
+    			}
+    			if (buckets[bucketstore] == 0){
+    				buckets[bucketstore] = -10000;
+					//cout << "issues found" << endl;
+    			}
     			buckets[bucket] = -1*buckets[bucket]/bucketstore;
 				bucket++;
 				bucketstore = 0;
@@ -289,6 +296,13 @@ void readFourier(char* filename, float* buckets){
     		bucketstore++;
     		buckets[bucket] += db[i];
 			//cout << freq[i] << "   " << db[i] << endl;
+    	}
+    	if (buckets[bucketstore] == 0){
+    		buckets[bucketstore] = -10000;
+					//cout << "issues found" << endl;
+    	}
+    	if (bucketstore == 0){
+					cout << "issue found" << endl;
     	}
 		buckets[bucket] = -1*buckets[bucket]/bucketstore;
 		
