@@ -56,7 +56,7 @@ int main(int argc, char* argv[]){
 	match m10(32);
 	matchmaker[10] = m10;
 	//5 for arbitrary, 5 for name, 1 for password
-
+/*
 	sprintf(filename, path2, 1, allexp[1], 1); //arb
 	readFourier(filename, buckets, var);
 	matchmaker[0].update(buckets, var);
@@ -69,19 +69,124 @@ int main(int argc, char* argv[]){
 	readFourier(filename, buckets, var);
 	int t = matchmaker[0].compare(buckets);
 	cout << t << endl;
-	
-/*
-	for (int np = 0; np < 5; np++){ //person
-		for (int i = 1; i <= 5; i++){ //voice
-			//test arbitrary only first;
-			sprintf(filename, path2, i, allexp[1], k); //arb
-			readFourier(filename, buckets);
-			matchmaker[np].update(buckets);
-			
+*/
+	for (int i = 1; i < 6; i++){ //initialize the units
+		sprintf(filename, path2, i, allexp[1], 1); //arb
+		readFourier(filename, buckets, var);
+		matchmaker[i-1].update(buckets, var);
 
+		sprintf(filename, path2, i, allexp[0], 1); //name
+		readFourier(filename, buckets, var);
+		matchmaker[i+4].update(buckets, var);
+
+	}
+	sprintf(filename, path2, 1, allexp[2], 1); //password
+	readFourier(filename, buckets, var);
+	matchmaker[10].update(buckets, var);
+
+	for (int i = 1; i <= 5; i++){ //person
+		for (int j = 1; j <= 5; j++){ //voice
+		
+			//test arbitrary only first;
+			sprintf(filename, path2, i, allexp[1], j); //arb
+			readFourier(filename, buckets, var);
+			matchmaker[i].up(buckets, var);
+
+			cout << filename << endl;
+
+			sprintf(filename, path2, i, allexp[0], j); //name
+			readFourier(filename, buckets, var);
+			matchmaker[i+5].up(buckets, var);
+
+			sprintf(filename, path2, i, allexp[2], j); //password
+			readFourier(filename, buckets, var);
+			matchmaker[10].up(buckets, var);		
 		}
 	}
-*/	
+	int loca, locn;
+	int hita, hitn, hitp;
+	int temp = 0;
+	for (int i = 1; i <= 5; i++){ //person
+		hita = hitn = hitp = 0;
+		loca = locn = -1;
+		for (int j = 6; j <= 10; j++){ //voice
+
+			sprintf(filename, path2, i, allexp[1], j); //arb
+			readFourier(filename, buckets, var);
+			temp = matchmaker[i].compare(buckets);
+			if (temp == 1){
+				hita++;
+				loca = i;
+			}
+
+			sprintf(filename, path2, i, allexp[0], j); //name
+			readFourier(filename, buckets, var);
+			temp = matchmaker[i+5].compare(buckets);
+			if (temp == 1){
+				hitn++;
+				locn = i;
+			}
+
+			sprintf(filename, path2, i, allexp[2], j); //password
+			readFourier(filename, buckets, var);
+			temp = matchmaker[10].compare(buckets);
+			if (temp == 1){
+				hitp++;
+			}		
+		}
+		//if (hita > 1){
+		//	loca = -1;
+		//}
+		//if (hita > 1){
+		//	loca = -1;
+		//}
+		cout << "person " << i << " arbitrary: " << hita << " name: " << hitn << " password: " << hitp << endl; 
+
+	}
+
+	for (int i = 6; i <= 10; i++){ //person
+		hita = hitn = hitp = 0;
+		loca = locn = -1;
+		for (int j = 6; j <= 10; j++){ //voice
+		for (int k = 0; k < 6; k++){ 
+			sprintf(filename, path2, i, allexp[1], j); //arb
+			readFourier(filename, buckets, var);
+			temp = matchmaker[k].compare(buckets);
+			if (temp == 1){
+				hita++;
+				loca = i;
+			}
+
+			sprintf(filename, path2, i, allexp[0], j); //name
+			readFourier(filename, buckets, var);
+			temp = matchmaker[k+5].compare(buckets);
+			if (temp == 1){
+				hitn++;
+				locn = i;
+			}
+
+		
+		}
+			sprintf(filename, path2, i, allexp[2], j); //password
+			readFourier(filename, buckets, var);
+			temp = matchmaker[10].compare(buckets);
+			if (temp == 1){
+				hitp++;
+			}
+		}
+		//if (hita > 1){
+		//	loca = -1;
+		//}
+		//if (hita > 1){
+		//	loca = -1;
+		//}
+		cout << "false person " << i << " arbitrary: " << hita << " name: " << hitn << " password: " << hitp << endl; 
+
+	}
+
+
+	free(matchmaker);
+	matchmaker = NULL;
 	return -1;
 	//buckets[16] = 1;
 
