@@ -136,49 +136,7 @@ int main(int argc, char* argv[]){
 			if (temp == 1){
 				hitp++;
 			}	
-			//check others
-			for (int k = 0; k < 6; k++){ 
-				sprintf(filename, path2, i, allexp[1], j); //arb
-				readFourier(filename, buckets, var);
-				temp = matchmaker[k].compare(buckets);
-				if (temp == 1){
-					hitna++;
-				}
-	
-				sprintf(filename, path2, i, allexp[0], j); //name
-				readFourier(filename, buckets, var);
-				temp = matchmaker[k+5].compare(buckets);
-				if (temp == 1){
-					hitnn++;
-					locn = i;
-				}
-	
 			
-			}
-			if (hitna > 0 & hita > 0){
-				reja++;
-			}
-			else if (hita = 1){
-				acpa++;
-			}
-			else if (hitna = 1){
-				erra++;
-			}
-			else {
-				reja++;
-			}
-			if (hitnn > 0 & hitn > 0){
-				rejn++;
-			}
-			else if (hitn = 1){
-				acpn++;
-			}
-			else if (hitnn = 1){
-				errn++;
-			}
-			else {
-				rejn++;
-			}
 			sprintf(filename, path2, i, allexp[2], j); //password
 			readFourier(filename, buckets, var);
 			temp = matchmaker[10].compare(buckets);
@@ -192,8 +150,8 @@ int main(int argc, char* argv[]){
 		//if (hita > 1){
 		//	loca = -1;
 		//}
-		//cout << "person " << i << " arbitrary: " << hita << " name: " << hitn << " password: " << hitp << endl; 
-		printf("person %d arb a: %d r: %d e: %d name a: %d r: %d e: %d pass %d \n",  i, acpa, reja, erra, acpn, rejn, errn, hitp);
+		cout << "person " << i << " arbitrary: " << hita << " name: " << hitn << " password: " << hitp << endl; 
+
 
 	}
 
