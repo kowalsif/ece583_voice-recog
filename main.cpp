@@ -1,12 +1,13 @@
 #include "main.h"
+#include "match.h"
 
 #define SAMPLING_RATE 44100
 #define BIT_RATE  721920 //705
 //#define path "c:\\Users\\dohertjp\\Documents\\Courses\\ECE583\\Voice Database\\sounds\\1name1.wav"
 #define path "C:\\Users\\kowalsif\\Desktop\\pattern recognition\\voice\\spectrum.txt"
 
-//#define path2 "C:\\Users\\kowalsif\\Desktop\\sounds\\%d%c%d.txt"
-#define path2 "C:\\Users\\dohertjp\\Downloads\\transformDatabase\\fourier\\%d%c%d.txt"
+#define path2 "C:\\Users\\kowalsif\\Desktop\\sounds\\%d%c%d.txt"
+//#define path2 "C:\\Users\\dohertjp\\Downloads\\transformDatabase\\fourier\\%d%c%d.txt"
 
 
 using namespace std;
@@ -27,16 +28,60 @@ int main(int argc, char* argv[]){
 	//sprintf(filename, path2, 1, allexp[0], 1);
 	
 	//cout << filename << endl;
-	float buckets[16];
+	float buckets[32]; //687.5
+	float var[32];
+	
+	match *matchmaker;
+	matchmaker = (match*) malloc(sizeof(match)*11);
+	match m0(32);
+	matchmaker[0] = m0;
+	match m1(32);
+	matchmaker[1] = m1;
+	match m2(32);
+	matchmaker[2] = m2;
+	match m3(32);
+	matchmaker[3] = m3;
+	match m4(32);
+	matchmaker[4] = m4;
+	match m5(32);
+	matchmaker[5] = m5;
+	match m6(32);
+	matchmaker[6] = m6;
+	match m7(32);
+	matchmaker[7] = m7;
+	match m8(32);
+	matchmaker[8] = m8;
+	match m9(32);
+	matchmaker[9] = m9;
+	match m10(32);
+	matchmaker[10] = m10;
+	//5 for arbitrary, 5 for name, 1 for password
 
+	sprintf(filename, path2, 1, allexp[1], 1); //arb
+	readFourier(filename, buckets, var);
+	matchmaker[0].update(buckets, var);
+	matchmaker[0].printer();
+	sprintf(filename, path2, 1, allexp[1], 2); //arb
+	readFourier(filename, buckets, var);
+	matchmaker[0].up(buckets, var);
+	matchmaker[0].printer();
+	sprintf(filename, path2, 3, allexp[1], 3); //arb
+	readFourier(filename, buckets, var);
+	int t = matchmaker[0].compare(buckets);
+	cout << t << endl;
+	
+/*
 	for (int np = 0; np < 5; np++){ //person
 		for (int i = 1; i <= 5; i++){ //voice
-			for (int j = 0; j < 2; j++){
+			//test arbitrary only first;
+			sprintf(filename, path2, i, allexp[1], k); //arb
+			readFourier(filename, buckets);
+			matchmaker[np].update(buckets);
+			
 
-			}
 		}
 	}
-	
+*/	
 	return -1;
 	//buckets[16] = 1;
 
@@ -269,7 +314,7 @@ int main(int argc, char* argv[]){
 }
 
 
-void readFourier(char* filename, float* buckets){
+void readFourier(char* filename, float* buckets, float* var){
 	FILE *fp;
 
 	fp = fopen(filename, "rb");
@@ -297,22 +342,34 @@ void readFourier(char* filename, float* buckets){
 
     	myfile.close();
 		int bucketstore = 0;
-		for (int i = 0; i < 16; i++){
+		for (int i = 0; i < 32; i++){
 			buckets[i] = 0;
 		}
+		int min = 1000;
+		int max = -1000;
 		int bucket = 0;
     	for (int i = 0; i < count; i++){
-    		if (freq[i] > (bucket + 1)*1375){
-    			buckets[bucket] = -1*buckets[bucket]/bucketstore;
+    		if (freq[i] > (bucket + 1)*687.5){
+    			buckets[bucket] = buckets[bucket]/bucketstore;
+    			var[bucket] = sqrt(min*min + max*max)/bucketstore;
 				bucket++;
 				bucketstore = 0;
+				min = 1000;
+				max = -1000;
     		}
     		bucketstore++;
     		buckets[bucket] += db[i];
+    		if (min > db[i]){
+				min = db[i];
+    		}
+    		if (max < db[i]){
+				max = db[i];
+    		}
 			//cout << freq[i] << "   " << db[i] << endl;
     	}
-		buckets[bucket] = -1*buckets[bucket]/bucketstore;
-		
+
+		buckets[bucket] = buckets[bucket]/bucketstore;
+		var[bucket] = sqrt(min*min + max*max)/bucketstore;
     	//return buckets;
 	}
 	else {
@@ -320,7 +377,6 @@ void readFourier(char* filename, float* buckets){
 	}
 
 	fclose(fp);
-
 }
 
 
