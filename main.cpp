@@ -137,12 +137,6 @@ int main(int argc, char* argv[]){
 				hitp++;
 			}	
 			
-			sprintf(filename, path2, i, allexp[2], j); //password
-			readFourier(filename, buckets, var);
-			temp = matchmaker[10].compare(buckets);
-			if (temp == 1){
-				hitp++;
-			}
 		}
 		//if (hita > 1){
 		//	loca = -1;
