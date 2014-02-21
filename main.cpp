@@ -23,14 +23,26 @@ int main(int argc, char* argv[]){
 	//int mode = atoi(argv[1]);
 	char allexp[] = "nap";
 	
+	
 	//sprintf(filename, path2, 1, allexp[0], 1);
 	
 	//cout << filename << endl;
 	float buckets[16];
+
+	for (int np = 0; np < 5; np++){ //person
+		for (int i = 1; i <= 5; i++){ //voice
+			for (int j = 0; j < 2; j++){
+
+			}
+		}
+	}
+	
+	return -1;
 	//buckets[16] = 1;
 
 	//C:\Users\dohertjp\Documents\Courses\ECE583\Voice Database\sounds
 	//readFourier(filename, buckets);
+/*
 	hidden_unit0 *hidden0;
 	hidden0 = (hidden_unit0*) malloc(sizeof(hidden_unit0)*16);
 	hidden_unit0 h0(16);
@@ -202,6 +214,7 @@ int main(int argc, char* argv[]){
 			output[m].update();
 		}
 	}
+	
 	//initialize the system
 	float z1[16];
 	float z2[16];
@@ -248,8 +261,10 @@ int main(int argc, char* argv[]){
 	free(hidden0);
 	free(hidden1);
 	free(output);
+*/
 
-	return -1;
+	
+	//return -1;
 	//length = readWAV(filename, sound_buffer);
 }
 
