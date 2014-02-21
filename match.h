@@ -15,7 +15,7 @@ class match{
 		void update(float*, float*);
 		void up(float*, float*);
 		~match();
-		int compare(float*);
+		float compare(float*);
 		void printer();
 
 };

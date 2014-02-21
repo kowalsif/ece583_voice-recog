@@ -38,15 +38,20 @@ match::~match(){
 }
 
 
-int match::compare(float* input){
-	int flag = 1;
+float match::compare(float* input){
+	float sum = 0;
+	for(int i=0; i<units; i++){
+		sum += abs(buckets[i]-input[i]);
+	}
+	return sum;
+	/*int flag = 1;
 	for (int i = 0; i < units; i++){
 		if (abs(buckets[i]-input[i]) > var[i]){
 			flag = 0;
 		}
 	}
 
-	return flag;
+	return flag;*/
 }
 
 void match::printer(){

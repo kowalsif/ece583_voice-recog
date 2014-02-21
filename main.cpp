@@ -3,11 +3,11 @@
 
 #define SAMPLING_RATE 44100
 #define BIT_RATE  721920 //705
-//#define path "c:\\Users\\dohertjp\\Documents\\Courses\\ECE583\\Voice Database\\sounds\\1name1.wav"
-#define path "C:\\Users\\kowalsif\\Desktop\\pattern recognition\\voice\\spectrum.txt"
+#define path "c:\\Users\\dohertjp\\Documents\\Courses\\ECE583\\Voice Database\\sounds\\1name1.wav"
+//#define path "C:\\Users\\kowalsif\\Desktop\\pattern recognition\\voice\\spectrum.txt"
 
-#define path2 "C:\\Users\\kowalsif\\Desktop\\sounds\\%d%c%d.txt"
-//#define path2 "C:\\Users\\dohertjp\\Downloads\\transformDatabase\\fourier\\%d%c%d.txt"
+//#define path2 "C:\\Users\\kowalsif\\Desktop\\sounds\\%d%c%d.txt"
+#define path2 "C:\\Users\\dohertjp\\Downloads\\transformDatabase\\fourier\\%d%c%d.txt"
 
 
 using namespace std;
@@ -32,7 +32,7 @@ int main(int argc, char* argv[]){
 	float var[32];
 	
 	match *matchmaker;
-	matchmaker = (match*) malloc(sizeof(match)*11);
+	matchmaker = (match*) malloc(sizeof(match)*20);
 	match m0(32);
 	matchmaker[0] = m0;
 	match m1(32);
@@ -55,6 +55,25 @@ int main(int argc, char* argv[]){
 	matchmaker[9] = m9;
 	match m10(32);
 	matchmaker[10] = m10;
+	match m11(32);
+	matchmaker[11] = m11;
+	match m12(32);
+	matchmaker[12] = m12;
+	match m13(32);
+	matchmaker[13] = m13;
+	match m14(32);
+	matchmaker[14] = m14;
+	match m15(32);
+	matchmaker[15] = m15;
+	match m16(32);
+	matchmaker[16] = m16;
+	match m17(32);
+	matchmaker[17] = m17;
+	match m18(32);
+	matchmaker[18] = m18;
+	match m19(32);
+	matchmaker[19] = m19;
+
 	//5 for arbitrary, 5 for name, 1 for password
 /*
 	sprintf(filename, path2, 1, allexp[1], 1); //arb
@@ -70,47 +89,90 @@ int main(int argc, char* argv[]){
 	int t = matchmaker[0].compare(buckets);
 	cout << t << endl;
 */
-	for (int i = 1; i < 6; i++){ //initialize the units
-		sprintf(filename, path2, i, allexp[1], 1); //arb
+	for (int i = 0; i < 10; i++){ //initialize the units
+		sprintf(filename, path2, i+1, allexp[1], 1); //arb
 		readFourier(filename, buckets, var);
-		matchmaker[i-1].update(buckets, var);
+		matchmaker[i].update(buckets, var);
 
-		sprintf(filename, path2, i, allexp[0], 1); //name
+		sprintf(filename, path2, i+1, allexp[0], 1); //name
 		readFourier(filename, buckets, var);
-		matchmaker[i+4].update(buckets, var);
+		matchmaker[i+10].update(buckets, var);
 
 	}
-	sprintf(filename, path2, 1, allexp[2], 1); //password
-	readFourier(filename, buckets, var);
-	matchmaker[10].update(buckets, var);
 
-	for (int i = 1; i <= 5; i++){ //person
+	for (int i = 0; i < 10; i++){ //person
 		for (int j = 1; j <= 5; j++){ //voice
 		
 			//test arbitrary only first;
-			sprintf(filename, path2, i, allexp[1], j); //arb
+			sprintf(filename, path2, i+1, allexp[1], j); //arb
 			readFourier(filename, buckets, var);
 			matchmaker[i].up(buckets, var);
 
 			cout << filename << endl;
 
-			sprintf(filename, path2, i, allexp[0], j); //name
+			sprintf(filename, path2, i+1, allexp[0], j); //name
 			readFourier(filename, buckets, var);
-			matchmaker[i+5].up(buckets, var);
-
-			sprintf(filename, path2, i, allexp[2], j); //password
-			readFourier(filename, buckets, var);
-			matchmaker[10].up(buckets, var);		
+			matchmaker[i+10].up(buckets, var);		
 		}
 	}
 	
+	int dirName = 0;
+	int dirArb = 0;
+	float count = 0;
+	float temp;
+	for (int i=1; i<=10;i++){
+		float minName= 1000000, minArb= 1000000;
+		int minIndexName, minIndexArb;
+		for(int k=5; k<=10; k++){
+			for(int j=0; j<10; j++){
+				sprintf(filename, path2,i,allexp[1],k); //arb
+				readFourier(filename, buckets, var);
+				temp = matchmaker[j].compare(buckets);
+				if(temp < minArb){
+					minArb = temp;
+					minIndexArb = j;
+				}
+				sprintf(filename, path2,i,allexp[0],k); //name
+				readFourier(filename, buckets, var);
+				temp = matchmaker[j+10].compare(buckets);
+				if(temp < minName){
+					minName = temp;
+					minIndexName = j;
+				}
+			}
+			if((minIndexName+1) == i){
+				cout << "Name: " << i << ":" << k << endl;
+				dirName++;
+			}
+			if((minIndexArb+1) == i){
+				cout << "Arbitrary" << i << ":" << k << endl;
+				dirArb++;
+			}
+			count++;
+		}
+	}
+	cout << "dirName = " << (float)dirName/count << "\n";
+	cout << "dirArb = " << (float)dirArb/count << "\n";
+	
+
+	/*
 	int loca, locn;
 	int hita, hitn, hitp, hitna, hitnn, reja, rejn, acpa, acpn, erra, errn;
 	int temp = 0;
 	for (int i = 1; i <= 5; i++){ //person
-		hita = hitn = hitp = hitna = hitnn = 0;
-		reja = rejn = acpa = acpn = erra = errn = 0;
-		loca = locn = -1;
+		hita = 0;
+		hitn = 0;
+		hitp = 0;
+		hitna = 0;
+		hitnn = 0;
+		reja = 0;
+		rejn = 0;
+		acpa = 0;
+		acpn = 0;
+		erra = 0;
+		errn = 0;
+		loca = -1;
+		locn = -1;
 		//rej = acp = 0;
 		for (int j = 6; j <= 10; j++){ //voice
 			//compare with own
@@ -148,30 +210,34 @@ int main(int argc, char* argv[]){
 
 
 	}
+	
 
 	for (int i = 6; i <= 10; i++){ //person
-		hita = hitn = hitp = 0;
-		loca = locn = -1;
+		hita = 0;
+		hitn = 0;
+		hitp = 0;
+		loca = -1;
+		locn = -1;
 		for (int j = 6; j <= 10; j++){ //voice
-		for (int k = 0; k < 6; k++){ 
-			sprintf(filename, path2, i, allexp[1], j); //arb
-			readFourier(filename, buckets, var);
-			temp = matchmaker[k].compare(buckets);
-			if (temp == 1){
-				hita++;
-				loca = i;
-			}
+			for (int k = 0; k < 6; k++){ 
+				sprintf(filename, path2, i, allexp[1], j); //arb
+				readFourier(filename, buckets, var);
+				temp = matchmaker[k].compare(buckets);
+				if (temp == 1){
+					hita++;
+					loca = i;
+				}
 
-			sprintf(filename, path2, i, allexp[0], j); //name
-			readFourier(filename, buckets, var);
-			temp = matchmaker[k+5].compare(buckets);
-			if (temp == 1){
-				hitn++;
-				locn = i;
-			}
+				sprintf(filename, path2, i, allexp[0], j); //name
+				readFourier(filename, buckets, var);
+				temp = matchmaker[k+5].compare(buckets);
+				if (temp == 1){
+					hitn++;
+					locn = i;
+				}
 
 		
-		}
+			}
 			sprintf(filename, path2, i, allexp[2], j); //password
 			readFourier(filename, buckets, var);
 			temp = matchmaker[10].compare(buckets);
@@ -197,7 +263,7 @@ int main(int argc, char* argv[]){
 
 	//C:\Users\dohertjp\Documents\Courses\ECE583\Voice Database\sounds
 	//readFourier(filename, buckets);
-/*
+
 	hidden_unit0 *hidden0;
 	hidden0 = (hidden_unit0*) malloc(sizeof(hidden_unit0)*16);
 	hidden_unit0 h0(16);
