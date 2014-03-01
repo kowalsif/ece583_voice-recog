@@ -1,4 +1,5 @@
 #include "output_unit.h"
+#include "time.h"
 
 using namespace std;
 
@@ -7,12 +8,15 @@ using namespace std;
 
 
 output_unit::output_unit(int numUnits){
+	srand(clock());
 	units = numUnits;
 	weights = (float*)malloc(sizeof(float)*(units));
 	weight_updates = (float*)malloc(sizeof(float)*(units));
 	for(int i=0; i<numUnits; i++){
-		weights[i] = 1;
+		weights[i] = (rand()%100)/100.0;
 		weight_updates[i] = 0;
+	}
+	for (int i = 0; i < 10000000; i++){ //delay for different rand nums
 	}
 	//weights[numUnits] = 1;
 	//weight_updates[numUnits] = 0;

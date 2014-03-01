@@ -1,18 +1,24 @@
 #include "hidden_unit0.h"
-
+#include "time.h"
 using namespace std;
 
 #define Beta 1.0
-#define Eta 0.0001
+#define Eta 0.01
 
 
 hidden_unit0::hidden_unit0(int numUnits){
+    srand (clock());
 	units = numUnits;
 	weights = (float*)malloc(sizeof(float)*(units));
 	weight_updates = (float*)malloc(sizeof(float)*(units));
+
 	for(int i=0; i<numUnits; i++){
-		weights[i] = 1;
+		weights[i] = (rand()%100)/100.0;
+		//printf("weight: %f\n", weights[i]);
 		weight_updates[i] = 0;
+	}
+	//printf("weight: %f\n", weights[0]);
+	for (int i = 0; i < 10000000; i++){ //delay for different rand nums
 	}
 	//weights[numUnits] = 1;
 	//weight_updates[numUnits] = 0;
@@ -37,7 +43,10 @@ hidden_unit0::~hidden_unit0(){
 }
 
 float hidden_unit0::f(float net){
+	
 	z = (float) 1/(1+exp(-1*(Beta*sum)));
+	//printf("rec0: %f ", net);
+	printf("eval0: %f\n", z);
 	return z;
 }
 float hidden_unit0::net(float* inputs){
@@ -61,13 +70,38 @@ void hidden_unit0::backPropogation(float d, float y, float w2, float w1, float n
 	g = f / e;
 	h = Beta * b;
 	i = (1+b)*(1+b);
-	j = h/i;
+	j = h/i; //problem
+	if (h != h){
+		cout << "h";
+	}
+	if (i != i){
+		cout << "i";
+	}
+	if (g != g){
+		cout << "g";
+	}
+	if (j != j){
+		j = 1;
+		//cout << h << " " << i << "; ";
+	}
+	//cout << h << endl;
+	//cout << i << endl;
 	weight_updates[weightIndex] += c*g*j;
 }
 
 void hidden_unit0::update(){
+	float delta;
 	for(int i=0; i<units; i++){
-		weights[i] = weights[i] - (Eta * weight_updates[i]);
+		if (weight_updates[i] != weight_updates[i]){
+			weight_updates[i] = 0;
+			//cout << "correcting" << endl;
+		}
+		delta = (Eta * weight_updates[i]);
+		if (delta != delta){
+			cout << weight_updates[i] << endl;
+		}
+		weights[i] = weights[i] - delta;
+		//cout << "delta: " << delta << endl;
 		weight_updates[i] = 0;
 	}
 }

@@ -1,5 +1,8 @@
 #include "main.h"
-#include "match.h"
+//#include "hidden_unit0.h"
+//#include "hidden_unit1.h"
+//#include "output_unit.h"
+//#include "match.h"
 
 #define SAMPLING_RATE 44100
 #define BIT_RATE  721920 //705
@@ -28,176 +31,12 @@ int main(int argc, char* argv[]){
 	//sprintf(filename, path2, 1, allexp[0], 1);
 	
 	//cout << filename << endl;
-	float buckets[32]; //687.5
+	float buckets[16]; //687.5
 	float var[32];
-	
-	match *matchmaker;
-	matchmaker = (match*) malloc(sizeof(match)*11);
-	match m0(32);
-	matchmaker[0] = m0;
-	match m1(32);
-	matchmaker[1] = m1;
-	match m2(32);
-	matchmaker[2] = m2;
-	match m3(32);
-	matchmaker[3] = m3;
-	match m4(32);
-	matchmaker[4] = m4;
-	match m5(32);
-	matchmaker[5] = m5;
-	match m6(32);
-	matchmaker[6] = m6;
-	match m7(32);
-	matchmaker[7] = m7;
-	match m8(32);
-	matchmaker[8] = m8;
-	match m9(32);
-	matchmaker[9] = m9;
-	match m10(32);
-	matchmaker[10] = m10;
-	//5 for arbitrary, 5 for name, 1 for password
-/*
-	sprintf(filename, path2, 1, allexp[1], 1); //arb
-	readFourier(filename, buckets, var);
-	matchmaker[0].update(buckets, var);
-	matchmaker[0].printer();
-	sprintf(filename, path2, 1, allexp[1], 2); //arb
-	readFourier(filename, buckets, var);
-	matchmaker[0].up(buckets, var);
-	matchmaker[0].printer();
-	sprintf(filename, path2, 3, allexp[1], 3); //arb
-	readFourier(filename, buckets, var);
-	int t = matchmaker[0].compare(buckets);
-	cout << t << endl;
-*/
-	for (int i = 1; i < 6; i++){ //initialize the units
-		sprintf(filename, path2, i, allexp[1], 1); //arb
-		readFourier(filename, buckets, var);
-		matchmaker[i-1].update(buckets, var);
-
-		sprintf(filename, path2, i, allexp[0], 1); //name
-		readFourier(filename, buckets, var);
-		matchmaker[i+4].update(buckets, var);
-
-	}
-	sprintf(filename, path2, 1, allexp[2], 1); //password
-	readFourier(filename, buckets, var);
-	matchmaker[10].update(buckets, var);
-
-	for (int i = 1; i <= 5; i++){ //person
-		for (int j = 1; j <= 5; j++){ //voice
-		
-			//test arbitrary only first;
-			sprintf(filename, path2, i, allexp[1], j); //arb
-			readFourier(filename, buckets, var);
-			matchmaker[i].up(buckets, var);
-
-			cout << filename << endl;
-
-			sprintf(filename, path2, i, allexp[0], j); //name
-			readFourier(filename, buckets, var);
-			matchmaker[i+5].up(buckets, var);
-
-			sprintf(filename, path2, i, allexp[2], j); //password
-			readFourier(filename, buckets, var);
-			matchmaker[10].up(buckets, var);		
-		}
-	}
-	
-	int loca, locn;
-	int hita, hitn, hitp, hitna, hitnn, reja, rejn, acpa, acpn, erra, errn;
-	int temp = 0;
-	for (int i = 1; i <= 5; i++){ //person
-		hita = hitn = hitp = hitna = hitnn = 0;
-		reja = rejn = acpa = acpn = erra = errn = 0;
-		loca = locn = -1;
-		//rej = acp = 0;
-		for (int j = 6; j <= 10; j++){ //voice
-			//compare with own
-			sprintf(filename, path2, i, allexp[1], j); //arb
-			readFourier(filename, buckets, var);
-			temp = matchmaker[i].compare(buckets);
-			if (temp == 1){
-				hita++;
-				loca = i;
-			}
-
-			sprintf(filename, path2, i, allexp[0], j); //name
-			readFourier(filename, buckets, var);
-			temp = matchmaker[i+5].compare(buckets);
-			if (temp == 1){
-				hitn++;
-				locn = i;
-			}
-
-			sprintf(filename, path2, i, allexp[2], j); //password
-			readFourier(filename, buckets, var);
-			temp = matchmaker[10].compare(buckets);
-			if (temp == 1){
-				hitp++;
-			}	
-			
-		}
-		//if (hita > 1){
-		//	loca = -1;
-		//}
-		//if (hita > 1){
-		//	loca = -1;
-		//}
-		cout << "person " << i << " arbitrary: " << hita << " name: " << hitn << " password: " << hitp << endl; 
-
-
-	}
-
-	for (int i = 6; i <= 10; i++){ //person
-		hita = hitn = hitp = 0;
-		loca = locn = -1;
-		for (int j = 6; j <= 10; j++){ //voice
-		for (int k = 0; k < 6; k++){ 
-			sprintf(filename, path2, i, allexp[1], j); //arb
-			readFourier(filename, buckets, var);
-			temp = matchmaker[k].compare(buckets);
-			if (temp == 1){
-				hita++;
-				loca = i;
-			}
-
-			sprintf(filename, path2, i, allexp[0], j); //name
-			readFourier(filename, buckets, var);
-			temp = matchmaker[k+5].compare(buckets);
-			if (temp == 1){
-				hitn++;
-				locn = i;
-			}
-
-		
-		}
-			sprintf(filename, path2, i, allexp[2], j); //password
-			readFourier(filename, buckets, var);
-			temp = matchmaker[10].compare(buckets);
-			if (temp == 1){
-				hitp++;
-			}
-		}
-		//if (hita > 1){
-		//	loca = -1;
-		//}
-		//if (hita > 1){
-		//	loca = -1;
-		//}
-		cout << "false person " << i << " arbitrary: " << hita << " name: " << hitn << " password: " << hitp << endl; 
-
-	}
-
-
-	free(matchmaker);
-	matchmaker = NULL;
-	return -1;
-	//buckets[16] = 1;
 
 	//C:\Users\dohertjp\Documents\Courses\ECE583\Voice Database\sounds
 	//readFourier(filename, buckets);
-/*
+
 	hidden_unit0 *hidden0;
 	hidden0 = (hidden_unit0*) malloc(sizeof(hidden_unit0)*16);
 	hidden_unit0 h0(16);
@@ -291,14 +130,14 @@ int main(int argc, char* argv[]){
 
 	float d[3];
 	d[0] = 1;
-	d[1] = 0;
+	d[1] = -1;
 	d[2] = 1;
 	float J;
-	for(int iterations = 0; iterations < 100; iterations++){
-	for (int np = 0; np < 5; np++){
-		for (int i = 1; i <= 10; i++){ //alternate between intruder and not
-			for (int j = 0; j < 2; j++){
-				for (int k = 1; k <= 5; k++){
+	//for(int iterations = 0; iterations < 100; iterations++){
+	for (int np = 0; np < 3; np++){ //10
+		for (int i = 1; i <= 1; i++){ //alternate between intruder and not //5
+			for (int j = 0; j < 1; j++){ //2
+				for (int k = 1; k <= 5; k++){ //5
 					float net0b, net1b, out;
 					float z1[16];
 					float z2[16];
@@ -307,24 +146,28 @@ int main(int argc, char* argv[]){
 					//z2[16] = 1;
 					sprintf(filename, path2, i, allexp[j], k);
 					readFourier(filename, buckets);
-
+					printf("iteration: %d ", i);
 					//cout << buckets[0] << endl;
 					//send it in for an answer
 					for (int l = 0; l < 16; l++){
-					
+						printf(" b%d: %f ", l, buckets[l]);
 						z1[l] =  hidden0[l].net((buckets));
-						//cout << " results: " << z1[l];
+						printf("z1: %f ", y[l]);
+						//cout << " results: " << hidden0[l].getWeight(0);
 					} 
 					//cout << endl;
 					for (int l = 0; l < 16; l++){
 						z2[l] = hidden1[l].net(z1);
-						//cout << " results: " << z2[l];
+						//printf("z2: %f ", y[l]);
+						cout << " results: " << z2[l];
+						//cout << " results: " << hidden1[l].getWeight(0);
 					}
 					for (int l = 0; l < 2; l++){
 						y[l] = output[l].net(z2);
-						printf("the result is: %f\n", y[l]);
+						//printf("y: %f ", y[l]);
 						//output[l].getWeight(1);
 					}
+					printf("\n\n");
 
 					//propagation to rebalance
 					//h1
@@ -360,7 +203,7 @@ int main(int argc, char* argv[]){
 				}
 			}
 		}	
-	}
+	//}
 		for (int m = 0; m < 16; m++){
 			hidden0[m].update();
 			hidden1[m].update();
@@ -370,7 +213,7 @@ int main(int argc, char* argv[]){
 		}
 	}
 	
-	//initialize the system
+/*	//initialize the system
 	float z1[16];
 	float z2[16];
 	float y[2];
@@ -402,8 +245,8 @@ int main(int argc, char* argv[]){
 	for (int l = 0; l < 2; l++){
 		y[l] = output[l].net(z2);
 	}
-
-	cout << "y0: " << y[0] << " y1: " << y[1] << endl;
+*/
+//	cout << "y0: " << y[0] << " y1: " << y[1] << endl;
 	//kill the system
 	//for (int i = 0; i < 16; i++){
 		//delete &hidden0[i];
@@ -416,7 +259,6 @@ int main(int argc, char* argv[]){
 	free(hidden0);
 	free(hidden1);
 	free(output);
-*/
 
 	
 	//return -1;
@@ -424,7 +266,7 @@ int main(int argc, char* argv[]){
 }
 
 
-void readFourier(char* filename, float* buckets, float* var){
+void readFourier(char* filename, float* buckets){
 	FILE *fp;
 
 	fp = fopen(filename, "rb");
@@ -452,16 +294,16 @@ void readFourier(char* filename, float* buckets, float* var){
 
     	myfile.close();
 		int bucketstore = 0;
-		for (int i = 0; i < 32; i++){
+		for (int i = 0; i < 16; i++){
 			buckets[i] = 0;
 		}
 		int min = 1000;
 		int max = -1000;
 		int bucket = 0;
     	for (int i = 0; i < count; i++){
-    		if (freq[i] > (bucket + 1)*687.5){
+    		if (freq[i] > (bucket + 1)*1250){
     			buckets[bucket] = buckets[bucket]/bucketstore;
-    			var[bucket] = sqrt(min*min + max*max)/bucketstore;
+    			//var[bucket] = sqrt(min*min + max*max)/bucketstore;
 				bucket++;
 				bucketstore = 0;
 				min = 1000;
@@ -479,13 +321,15 @@ void readFourier(char* filename, float* buckets, float* var){
     	}
 
 		buckets[bucket] = buckets[bucket]/bucketstore;
-		var[bucket] = sqrt(min*min + max*max)/bucketstore;
+		//var[bucket] = sqrt(min*min + max*max)/bucketstore;
     	//return buckets;
 	}
 	else {
 		cout << "read failed, try again" << endl;
 	}
-
+	//for (int i = 0; i < 16; i++){
+	//	printf(" bucket: %f ", buckets[i]);
+	//}
 	fclose(fp);
 }
 
